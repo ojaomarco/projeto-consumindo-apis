@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TelaCriarPedido">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Cliente"
+            android:textColor="@color/black" />
+
+        <Spinner
+            android:id="@+id/spinner_cliente_pedido"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1.4"
+            android:hint="Clientes"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Vendedor"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/vendedor"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/gray"
+            android:hint="Cod. Vendedor"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Data"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/data_pedido"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/gray"
+            android:hint="Data"
+            android:onClick="selecionarData"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="0.6"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="Percentual Desc"
+            android:textColor="@color/black" />
+        <EditText
+            android:id="@+id/percent_desc"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1.4"
+            android:background="@color/gray"
+            android:hint="Percentual Desconto"
+            android:imeOptions="actionNext"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/black" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/black"
+            android:text="Cancelar"
+            android:onClick="cancelar"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:text="Continuar"
+            android:onClick="continuar"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item  android:id="@+id/mi_add_cliente"
+        android:title="Adicionar"
+        android:onClick="addCliente"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_add"
+        />
+    <item  android:id="@+id/mi_remover_cliente"
+        android:title="Excluir"
+        android:onClick="removerCliente"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_remover"
+        />
+    <item  android:id="@+id/mi_editar_cliente"
+        android:title="Editar"
+        android:onClick="editarCliente"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_editar"
+        />
+
+</menu>
