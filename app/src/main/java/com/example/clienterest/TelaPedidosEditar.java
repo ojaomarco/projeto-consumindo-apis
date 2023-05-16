@@ -41,7 +41,7 @@ public class TelaPedidosEditar extends AppCompatActivity {
     List<ItemPedido> itensPedido;
     Pedido pedidoEditar, pedidoNovo;
     boolean editando = false;
-
+    // TODO: 16/05/2023 continuar a fazer os metodos http para inserir e alterar os registros
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
