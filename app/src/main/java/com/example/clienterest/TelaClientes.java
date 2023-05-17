@@ -142,6 +142,10 @@ public class TelaClientes extends AppCompatActivity {
             }
         });
     }
+
+    public void cancelar(View v){
+        finish();
+    }
     void Eds(){
         edNome = (EditText) findViewById(R.id.nome);
         edCpf = (EditText) findViewById(R.id.cpf);

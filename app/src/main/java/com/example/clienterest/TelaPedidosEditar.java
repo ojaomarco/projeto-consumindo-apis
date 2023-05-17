@@ -3,9 +3,13 @@ package com.example.clienterest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,9 +26,11 @@ import com.example.clienterest.model.Pedido;
 import com.example.clienterest.model.Produto;
 import com.example.clienterest.model.Setor;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,31 +40,39 @@ import java.util.List;
 public class TelaPedidosEditar extends AppCompatActivity {
     Spinner spinnerSetores, spinnerProdutos;
     ListView lista;
+    ArrayAdapter<ItemPedido> adapter;
     ArrayAdapter<Setor> adapterSetores;
     ArrayAdapter<Produto> adapterProdutos;
     EditText qtd, precoUnit;
     Long idProdutoSelecionado;
     List<ItemPedido> itensPedido;
     Pedido pedidoEditar, pedidoNovo;
+    Gson gson;
     boolean editando = false;
     // TODO: 16/05/2023 continuar a fazer os metodos http para inserir e alterar os registros
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_pedidos_editar);
+        gson = new GsonBuilder().create();
         if(getIntent().getSerializableExtra("pedido")!=null){
             pedidoEditar = (Pedido) getIntent().getSerializableExtra("pedido");
             System.out.println("editando..."+pedidoEditar.toString());
             editando = true;
             itensPedido = pedidoEditar.getItens();
+
             listarSetores();
-            //setEds(clienteEditar);
         }else {
             System.out.println("nao editando...");
             pedidoNovo = (Pedido) getIntent().getSerializableExtra("pedidoNovo");
             itensPedido = new ArrayList<>();
             listarSetores();
+
         }
+        lista = ((ListView) findViewById(R.id.lista_itens_pedido));
+        adapter = new ArrayAdapter<ItemPedido>(TelaPedidosEditar.this, android.R.layout.simple_list_item_single_choice, itensPedido);
+        lista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        lista.setAdapter(adapter);
 
         spinnerProdutos = findViewById(R.id.spinner_itens);
         spinnerProdutos.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -93,6 +107,12 @@ public class TelaPedidosEditar extends AppCompatActivity {
                 }
             });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_item_pedido, menu);
+        return true;
+
+    }
     public void listarItens(String idSetor){
         BuscadorItens buscador = new BuscadorItens();
         buscador.execute(idSetor);
@@ -118,6 +138,8 @@ public class TelaPedidosEditar extends AppCompatActivity {
             );
             qtd.setText("");
             precoUnit.setText("");
+            adapter.notifyDataSetChanged();
+
 
         }catch (Exception e){
             Toast.makeText(this, "Preencha todos os campos antes de adicionar..", Toast.LENGTH_SHORT).show();
@@ -128,14 +150,81 @@ public class TelaPedidosEditar extends AppCompatActivity {
             putPedidoEditado();
         else
             postPedidoNovo();
+        Intent it = new Intent(this , TelaPedidos.class);
+        startActivity(it);
         finish();
     }
 
     private void postPedidoNovo() {
-    }
+        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create();
+        String json = gson.toJson( pedidoNovo );
+        new Thread() {
+            public void run(){
+                Looper.prepare();
+                try {
+                    URL url = new URL("http://argo.td.utfpr.edu.br/clients/ws/pedido");
+                    HttpURLConnection cnx = (HttpURLConnection) url.openConnection();
+                    cnx.setRequestMethod("POST");
+                    cnx.setRequestProperty("Content-Type","application/json");
+                    PrintWriter saida = new PrintWriter(cnx.getOutputStream() );
+                    saida.println(json);
+                    saida.flush();
+                    cnx.connect();
+                    if (cnx.getResponseCode() == 201){
+                        Toast.makeText(getApplicationContext(),
+                                "Pedido cadastrado com sucesso!",
+                                Toast.LENGTH_LONG).show();
 
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Falha no cadastro do Pedido...",
+                                Toast.LENGTH_LONG).show();
+                    }
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+                Looper.loop();
+            }
+        }.start();
+    }
     private void putPedidoEditado() {
+        Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy HH:mm:ss").create();
+        String json = gson.toJson( pedidoEditar );
+        long idPedidoEditar = pedidoEditar.getId();
+        new Thread() {
+            public void run(){
+                Looper.prepare();
+                try {
+                    URL url = new URL("http://argo.td.utfpr.edu.br/clients/ws/pedido/"+idPedidoEditar);
+                    HttpURLConnection cnx = (HttpURLConnection) url.openConnection();
+                    cnx.setRequestMethod("PUT");
+                    cnx.setRequestProperty("Content-Type","application/json");
+                    PrintWriter saida = new PrintWriter(cnx.getOutputStream() );
+                    saida.println(json);
+                    saida.flush();
+                    cnx.connect();
+                    if (cnx.getResponseCode() == 204){
+                        Toast.makeText(getApplicationContext(),
+                                "Pedido Alterado com sucesso!",
+                                Toast.LENGTH_LONG).show();
+
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                "Falha ao alterar Pedido.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                }
+                Looper.loop();
+            }
+        }.start();
         
+    }
+    public void removerItemPedido(MenuItem mi){
+        int pos = lista.getCheckedItemPosition();
+        itensPedido.remove(pos);
+        adapter.notifyDataSetChanged();
     }
 
     private class BuscadorSetores extends AsyncTask<String, Void, Setor[]> {
@@ -239,7 +328,6 @@ public class TelaPedidosEditar extends AppCompatActivity {
                 spinnerProdutos.setAdapter(adapterProdutos);
                 spinnerProdutos.setSelected(false);
             }
-
         }
         public class ProdutoSpinnerAdapter extends ArrayAdapter<Produto> {
             public ProdutoSpinnerAdapter(Context context, List<Produto> produtosL) {
@@ -262,6 +350,5 @@ public class TelaPedidosEditar extends AppCompatActivity {
                 return getView(position, convertView, parent);
             }
         }
-
     }
 }

@@ -93,9 +93,6 @@ public class TelaCriarPedido extends AppCompatActivity {
         }catch (Exception e){
             Toast.makeText(this, "Preencha todos os campos...", Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
     public void cancelar(View v){
         finish();

@@ -276,6 +276,7 @@
                     android:layout_weight="1"
                     android:background="@color/black"
                     android:text="Cancelar"
+                    android:onClick="cancelar"
                     android:textColor="@color/white" />
 
                 <Button

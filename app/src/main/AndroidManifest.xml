@@ -15,7 +15,7 @@
         <activity
             android:name=".TelaCriarPedido"
             android:exported="false"
-            android:label="@string/title_activity_tela_criar_pedido"
+            android:label="Testando"
             android:theme="@style/Theme.ClienteREST" />
         <activity
             android:name=".TelaSetores"
