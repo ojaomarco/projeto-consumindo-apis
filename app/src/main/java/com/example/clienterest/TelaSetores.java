@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -34,8 +36,13 @@ public class TelaSetores extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_setores);
         gson = new GsonBuilder().create();
+        listar();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setores, menu);
+        return true;
+    }
     public void inserir(View v) {
         String descricao = ((EditText) findViewById(R.id.edSetor)).getText().toString();
         double margem = Double.parseDouble(((EditText) findViewById(R.id.edMargem)).getText().toString());
@@ -68,8 +75,11 @@ public class TelaSetores extends AppCompatActivity {
                 Looper.loop();
             }
         }.start();
+        listar();
+        ((EditText) findViewById(R.id.edSetor)).setText("");
+        ((EditText) findViewById(R.id.edMargem)).setText("");
     }
-    public void excluir(View v){
+    public void excluir(MenuItem mi){
         if(lista.getCheckedItemPosition() != -1) {
             int pos = lista.getCheckedItemPosition();
             Setor setorSel = sets.get(pos);
@@ -114,8 +124,9 @@ public class TelaSetores extends AppCompatActivity {
                     "Selecione um setor para deletar...",
                     Toast.LENGTH_LONG).show();
         }
+        listar();
     }
-    public void listar(View v){
+    public void listar(){
         Buscador buscador = new Buscador();
         buscador.execute();
     }
@@ -151,7 +162,6 @@ public class TelaSetores extends AppCompatActivity {
 
         @Override
         public void onPostExecute(Setor[] setores) {
-
             sets = new ArrayList<>(Arrays.asList(setores));
             lista = ((ListView) findViewById(R.id.listaSetores));
             adapter = new ArrayAdapter<Setor>(TelaSetores.this, android.R.layout.simple_list_item_single_choice, sets);

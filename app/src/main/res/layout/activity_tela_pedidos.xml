@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TelaPedidos">
+    tools:context=".TelaPedidos"
+    android:layout_margin="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"

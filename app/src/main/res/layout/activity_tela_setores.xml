@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TelaSetores">
+    tools:context=".TelaSetores"
+    android:layout_margin="5dp">
 
     <EditText
         android:layout_width="match_parent"
@@ -23,18 +24,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Inserir"
+        android:text="Cadastrar"
         android:onClick="inserir"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Remover"
-        android:onClick="excluir"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Listar"
-        android:onClick="listar"/>
 
     <ListView
         android:layout_width="match_parent"

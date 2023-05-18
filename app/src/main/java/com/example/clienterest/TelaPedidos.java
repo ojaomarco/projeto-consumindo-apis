@@ -48,6 +48,8 @@ public class TelaPedidos extends AppCompatActivity {
     String cpfCliente;
     Gson gson;
 
+    int posSel = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,8 @@ public class TelaPedidos extends AppCompatActivity {
         BuscadorCliente buscadorCliente = new BuscadorCliente();
         buscadorCliente.execute();
         listarClientes();
+
+
     }
 
     private void listarClientes() {
@@ -148,11 +152,24 @@ public class TelaPedidos extends AppCompatActivity {
             lista = ((ListView) findViewById(R.id.lista_pedidos));
             adapter = new PedidoAdapter(TelaPedidos.this, R.layout.itens_pedidos, pedidos);;
             lista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                    if(posSel == position)
+                        posSel=-1;
+                    else{
+                        posSel=position;
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            });
 
             lista.setAdapter(adapter);
             lista.setSelector(R.color.purple_200);
             adapter.notifyDataSetChanged();
         }
+
+
         public class PedidoAdapter extends ArrayAdapter<Pedido> {
             private LayoutInflater inflater;
             private int resourceId;
@@ -162,6 +179,7 @@ public class TelaPedidos extends AppCompatActivity {
                 inflater = LayoutInflater.from(context);
                 this.resourceId = resourceId;
             }
+
 
             @NonNull
             @Override
@@ -183,8 +201,9 @@ public class TelaPedidos extends AppCompatActivity {
                 TextView campo3 = view.findViewById(R.id.idPedido);
                 campo3.setText("Id Pedido: "+ pedido.getId());
 
-                boolean isItemSelected = lista.isItemChecked(position);
+                boolean isItemSelected = lista.isItemChecked(posSel);
                 view.setActivated(isItemSelected);
+
 
                 return view;
             }
