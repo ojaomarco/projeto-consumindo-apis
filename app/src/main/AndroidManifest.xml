@@ -15,25 +15,37 @@
         <activity
             android:name=".TelaCriarPedido"
             android:exported="false"
-            android:label="Testando"
+            android:label="Novo Pedido"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.ClienteREST" />
         <activity
             android:name=".TelaSetores"
+            android:label="Setores"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".TelaClientesLista"
+            android:label="Clientes"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".TelaPedidosEditar"
+            android:label="Pedidos"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".TelaPedidos"
+            android:label="Pedidos"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".TelaClientes"
+            android:label="Clientes"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
